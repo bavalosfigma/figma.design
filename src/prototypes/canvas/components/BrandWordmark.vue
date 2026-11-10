@@ -42,7 +42,7 @@ const props = defineProps({
 
 const layoutTransition = { layout: springLayout }
 const svgRef = ref(null)
-const POINT = '#0d99ff'
+const OUTLINE = '#b4b4b4'
 const POINT_R = 3.4
 const HIT_R = 7
 
@@ -145,7 +145,7 @@ function onHandlePointerDown(handle, event) {
         }"
         :d="pathD(path)"
         :fill="path.fill"
-        :stroke="editable && isSegmentSelected(layoutId, path.segment) ? POINT : 'none'"
+        :stroke="editable && isSegmentSelected(layoutId, path.segment) ? OUTLINE : 'none'"
         stroke-width="1.25"
         stroke-linejoin="round"
         stroke-linecap="round"
