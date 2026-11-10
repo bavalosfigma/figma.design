@@ -1,0 +1,30 @@
+/* Hover micro-interactions, hover-capable devices only */
+
+.motion-color {
+  transition:
+    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .motion-lift {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .motion-lift:hover,
+  .group:hover .group-motion-lift {
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-lift:hover,
+  .group:hover .group-motion-lift {
+    transform: none;
+  }
+
+  .motion-color {
+    transition: none;
+  }
+}

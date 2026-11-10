@@ -1,0 +1,148 @@
+/*
+  Desktop type styles from the Figma type specimen (node 317:397).
+  The specimen's rem scale treats 1rem as 10px. These classes use the
+  resolved desktop sizes: family, weight, size, line-height, tracking.
+*/
+
+@font-face {
+  font-family: 'Figma Sans VF';
+  src: url('../assets/fonts/Figma-Sans-VF.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Figma Mono VF';
+  src: url('../assets/fonts/Figma-Mono-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.type-wordmark,
+.type-display-xxl,
+.type-display-xl,
+.type-display-large,
+.type-title-medium,
+.type-body-large,
+.type-body,
+.type-body-small,
+.type-body-small-light,
+.type-label-xsmall,
+.type-label-strong {
+  font-family: 'Figma Sans VF', sans-serif;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
+  color: #121212;
+}
+
+.type-editorial-medium,
+.type-editorial-caption {
+  font-family: 'Figma Mono VF', ui-monospace, monospace;
+  font-weight: 400;
+  font-style: normal;
+  color: #121212;
+}
+
+/* Wordmark · Figma Sans · 44 · 100% · −3% */
+.type-wordmark {
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* Display/XXL · Figma Sans · 96 · 90% · −1% */
+.type-display-xxl {
+  font-weight: 400;
+  font-size: 96px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+}
+
+/* Display/XL · Figma Sans · 72 · 85% · −3.5% */
+.type-display-xl {
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 0.85;
+  letter-spacing: -0.035em;
+}
+
+/* Display/Large · Figma Sans · 62 · 85% · −3.5% */
+.type-display-large {
+  font-weight: 400;
+  font-size: 62px;
+  line-height: 0.85;
+  letter-spacing: -0.035em;
+}
+
+/* Title/Medium · Figma Sans · 34 · 100% · −4% */
+.type-title-medium {
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Editorial/Medium · Figma Mono · 34 · 120% · −3% */
+.type-editorial-medium {
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+/* Body/Large · Figma Sans · 24 · 112% · −3% */
+.type-body-large {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+/* Body/Default · Figma Sans · 20 · 88% · −3% */
+.type-body {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+/* Body/Small · Figma Sans · 16 · 105% · −3% */
+.type-body-small {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+/* Body/Small Light · Figma Sans Light · 16 · 140% · −3% */
+.type-body-small-light {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+}
+
+/* Editorial/Caption · Figma Mono · 12 · 110% · −2% */
+.type-editorial-caption {
+  font-size: 12px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Label/XSmall · Figma Sans · 12 · 100% · 0 */
+.type-label-xsmall {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Label/Strong · Figma Sans Bold · 12 · 100% · 0 */
+.type-label-strong {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0;
+}
