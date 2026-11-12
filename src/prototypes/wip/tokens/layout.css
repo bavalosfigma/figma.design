@@ -6,7 +6,7 @@
   --wip-gutter: 16px;
   --wip-column-width: 203px;
   --wip-rule: #000;
-  --wip-rule-dash: #e2e2e2;
+  --wip-rule-dash: rgb(0 0 0 / 12%);
   --wip-dash-on: 2px;
   --wip-dash-gap: 2px;
   --wip-frame-top: 34px;
