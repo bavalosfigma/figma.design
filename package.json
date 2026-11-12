@@ -12,7 +12,8 @@
     "dialkit": "^2.2.0",
     "motion": "^14.12.0",
     "motion-v": "^2.11.1",
-    "vue": "^3.5.42"
+    "vue": "^3.5.42",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",

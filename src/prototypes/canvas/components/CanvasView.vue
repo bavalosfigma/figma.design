@@ -5,8 +5,14 @@ import PanStage from './PanStage.vue'
 import ArrowMark from './ArrowMark.vue'
 import BrandWordmark from './BrandWordmark.vue'
 import CanvasCardModal from './CanvasCardModal.vue'
+import LightboxModal from './LightboxModal.vue'
+import MissionModal from './MissionModal.vue'
+import TimelineModal from './TimelineModal.vue'
+import VideoLightboxModal from './VideoLightboxModal.vue'
 import { brandWordmarks, canvasItems, getCanvasCardMeta } from '../data/items.js'
-import { useCanvasCardNotes } from '../composables/useCanvasCardNotes.js'
+import designTeamCover from '../assets/designteam.png'
+import historyCover from '../assets/history.jpg'
+import zachCover from '../assets/zach.png'
 import { clearBrandSelection } from '../composables/useBrandPathState.js'
 import { softSpring } from '../motion/tokens.js'
 import {
@@ -16,7 +22,6 @@ import {
   canvasPlaceTransition,
 } from '../motion/fall.js'
 
-const { notes } = useCanvasCardNotes()
 const selectedId = ref(null)
 
 const selectedMeta = computed(() => {
@@ -71,10 +76,6 @@ function openCard(item) {
 function closeModal() {
   selectedId.value = null
 }
-
-function onSaveNotes(value) {
-  if (selectedId.value) notes[selectedId.value] = value
-}
 </script>
 
 <template>
@@ -119,11 +120,18 @@ function onSaveNotes(value) {
       </div>
 
       <div v-else-if="item.type === 'team'" class="team">
-        <span class="chip type-body-small">{{ item.label }}</span>
+        <img class="cover" :src="designTeamCover" alt="" />
+        <span class="card-title type-body-small">{{ item.label }}</span>
+      </div>
+
+      <div v-else-if="item.type === 'source'" class="source">
+        <img class="cover" :src="zachCover" alt="" />
+        <span class="card-title type-body-small">{{ item.label }}</span>
       </div>
 
       <div v-else-if="item.type === 'history'" class="history">
-        <span class="chip type-body-small">{{ item.label }}</span>
+        <img class="cover" :src="historyCover" alt="" />
+        <span class="card-title type-body-small">{{ item.label }}</span>
       </div>
 
       <div v-else-if="item.type === 'roles'" class="roles">
@@ -132,16 +140,29 @@ function onSaveNotes(value) {
         </div>
       </div>
 
-      <span v-if="notes[item.id]" class="note-dot" aria-hidden="true" />
     </motion.article>
   </PanStage>
 
   <CanvasCardModal
-    :open="Boolean(selectedId && selectedMeta)"
+    :open="Boolean(selectedId && selectedMeta && !selectedMeta.modal)"
     :title="selectedMeta?.title ?? ''"
-    :blurb="selectedMeta?.blurb ?? ''"
-    :model-value="selectedId ? notes[selectedId] : ''"
-    @update:model-value="onSaveNotes"
+    :body="selectedMeta?.blurb ?? ''"
+    :image="selectedMeta?.image ?? ''"
+    :color="selectedMeta?.color ?? '#efefef'"
+    @close="closeModal"
+  />
+  <LightboxModal
+    :open="Boolean(selectedId && selectedMeta?.modal === 'lightbox')"
+    :title="selectedMeta?.title ?? ''"
+    :slides="selectedMeta?.slides ?? []"
+    @close="closeModal"
+  />
+  <MissionModal :open="Boolean(selectedId && selectedMeta?.modal === 'mission')" @close="closeModal" />
+  <TimelineModal :open="Boolean(selectedId && selectedMeta?.modal === 'timeline')" @close="closeModal" />
+  <VideoLightboxModal
+    :open="Boolean(selectedId && selectedMeta?.modal === 'video')"
+    :title="selectedMeta?.title ?? 'Video'"
+    :src="selectedMeta?.video ?? ''"
     @close="closeModal"
   />
 </template>
@@ -159,17 +180,6 @@ function onSaveNotes(value) {
   pointer-events: auto;
   transform-origin: center bottom;
   cursor: pointer;
-}
-
-.note-dot {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #121212;
-  box-shadow: 0 0 0 2px #fff;
 }
 
 .mission {
@@ -218,33 +228,59 @@ function onSaveNotes(value) {
 .history {
   position: relative;
   height: 100%;
-  background: #d4d4d4;
 }
 
 .team {
+  overflow: hidden;
+  background: #d4d4d4;
   border-radius: 16px;
 }
 
-.history {
+.team .cover,
+.source .cover,
+.history .cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.source {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
   border-radius: 22px;
 }
 
-.chip {
-  position: absolute;
-  border-radius: 999px;
-  padding: 6px 12px;
+.source .cover {
+  border-radius: inherit;
 }
 
-.team .chip {
-  top: 15px;
-  left: 15px;
+.history {
+  overflow: hidden;
+  background: #e4ff97;
+  border-radius: 22px;
+}
+
+.card-title {
+  position: absolute;
+  z-index: 1;
+  bottom: 16px;
+  left: 12px;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: #f4f4f4;
+  color: #121212;
+}
+
+.team .card-title {
   background: #e3d4f8;
 }
 
-.history .chip {
-  bottom: 16px;
-  left: 12px;
-  background: #f4f4f4;
+.source .card-title {
+  background: #4d49fc;
+  color: #fff;
 }
 
 .roles {

@@ -1,0 +1,17 @@
+/* Bold Type artboard — figma.design WIP */
+.wip-root {
+  --wip-design-width: 1800px;
+  --wip-margin: 33px;
+  --wip-columns: 8;
+  --wip-gutter: 16px;
+  --wip-column-width: 203px;
+  --wip-rule: #000;
+  --wip-ink: #121212;
+  --wip-ink-soft: #6b6b6b;
+  --wip-rule-dash: #e2e2e2;
+  --wip-dash-on: 2px;
+  --wip-dash-gap: 2px;
+  --wip-frame-top: 34px;
+  --wip-marker: 8px;
+  --wip-bg: #fff;
+}

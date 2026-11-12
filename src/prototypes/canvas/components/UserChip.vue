@@ -15,16 +15,6 @@ import { fadeMedium, softSpring } from '../motion/tokens.js'
     :while-tap="{ scale: 0.98 }"
   >
     <span class="avatar type-body-small">G</span>
-    <svg class="chevron" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-      <path
-        d="M7 10l5 5 5-5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
   </motion.button>
 </template>
 

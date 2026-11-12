@@ -1,7 +1,5 @@
-import CanvasApp from './canvas/CanvasApp.vue'
-import SecondApp from './second/SecondApp.vue'
-
 export const prototypes = [
-  { id: 'canvas', name: 'Canvas', component: CanvasApp },
-  { id: 'second', name: 'Second', component: SecondApp },
+  { id: 'canvas', name: 'Canvas', path: '/canvas' },
+  { id: 'wip-01', name: 'WIP 01', path: '/wip-01' },
+  { id: 'wip', name: 'WIP', path: '/wip' },
 ]

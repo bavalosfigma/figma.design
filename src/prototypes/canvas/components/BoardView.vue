@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { AnimatePresence, motion } from 'motion-v'
 import BrandWordmark from './BrandWordmark.vue'
+import CanvasCardModal from './CanvasCardModal.vue'
 import { clearBrandSelection } from '../composables/useBrandPathState.js'
 import { brandWordmarks, columnsFor, filters } from '../data/items.js'
 import { softSpring, wipe } from '../motion/tokens.js'
@@ -14,6 +15,7 @@ import {
 
 const current = ref('Everything')
 const columns = computed(() => columnsFor(current.value))
+const selected = ref(null)
 
 const reducedMotion = ref(false)
 let media
@@ -35,6 +37,14 @@ function onMotionPreference(event) {
 function onBoardPointerDown(event) {
   if (event.target.closest('.wordmark-root')) return
   clearBrandSelection()
+}
+
+function openCard(card) {
+  selected.value = card
+}
+
+function closeModal() {
+  selected.value = null
 }
 
 function cardEnter(columnIndex, cardIndex) {
@@ -96,6 +106,11 @@ function cardEnter(columnIndex, cardIndex) {
             class="card"
             v-bind="cardEnter(columnIndex, cardIndex)"
             :while-hover="{ scale: 1.02, transition: softSpring }"
+            role="button"
+            tabindex="0"
+            :aria-label="`Open ${card.title}`"
+            @click="openCard(card)"
+            @keydown.enter="openCard(card)"
           >
             <p class="date type-body-small">{{ card.date }}</p>
             <p class="copy type-body-small-light">{{ card.text }}</p>
@@ -105,6 +120,14 @@ function cardEnter(columnIndex, cardIndex) {
       </div>
     </div>
   </div>
+
+  <CanvasCardModal
+    :open="Boolean(selected)"
+    :title="selected?.title ?? ''"
+    :body="selected?.text ?? ''"
+    color="#d4d4d4"
+    @close="closeModal"
+  />
 </template>
 
 <style scoped>
@@ -148,12 +171,14 @@ function cardEnter(columnIndex, cardIndex) {
 
 .filter.active {
   border-color: #121212;
+  background: #121212;
+  color: #fff;
 }
 
 .filter-wipe {
   position: absolute;
   inset: 0;
-  background: #f2ef4a;
+  background: #121212;
   z-index: 0;
 }
 
@@ -180,6 +205,7 @@ function cardEnter(columnIndex, cardIndex) {
   background: #f3f3f3;
   border-radius: 18px;
   transform-origin: center bottom;
+  cursor: pointer;
 }
 
 .date {

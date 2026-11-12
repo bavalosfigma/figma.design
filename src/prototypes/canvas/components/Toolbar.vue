@@ -14,14 +14,14 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const tabs = [
-  { id: 'canvas', label: 'Canvas' },
-  { id: 'board', label: 'Board' },
+  { id: 'canvas', label: 'About' },
+  { id: 'board', label: 'News' },
   { id: 'gallery', label: 'Gallery' },
 ]
 
 const values = useDialKit('Toolbar', {
-  radius: [32, 8, 48],
-  height: [61, 44, 88],
+  radius: [12, 8, 48],
+  height: [45, 44, 88],
   bottom: [29, 0, 80],
   background: '#ececec',
   apply: '#000000',
@@ -90,8 +90,8 @@ function choose(id) {
 
 <style scoped>
 .toolbar {
-  --toolbar-inner: calc(var(--toolbar-height, 61px) - 8px);
-  --toolbar-chip: calc(var(--toolbar-radius, 32px) - 4px);
+  --toolbar-inner: calc(var(--toolbar-height, 45px) - 8px);
+  --toolbar-chip: calc(var(--toolbar-radius, 12px) - 4px);
   position: absolute;
   z-index: 5;
   left: 50%;
@@ -99,10 +99,10 @@ function choose(id) {
   display: flex;
   align-items: center;
   gap: 4px;
-  height: var(--toolbar-height, 61px);
+  height: var(--toolbar-height, 45px);
   padding: 4px;
   background: var(--toolbar-bg, #ececec);
-  border-radius: var(--toolbar-radius, 32px);
+  border-radius: var(--toolbar-radius, 12px);
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.05);
 }
 

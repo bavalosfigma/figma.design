@@ -1,13 +1,19 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { DialRoot } from 'dialkit/vue'
+import { useRoute } from 'vue-router'
+import { DialRoot, DialTimeline } from 'dialkit/vue'
+import SiteCursor from './components/SiteCursor.vue'
 import { prototypes } from './prototypes/registry.js'
 
-const activeId = ref(prototypes[0].id)
+const route = useRoute()
 const menuOpen = ref(false)
 const dialOpen = ref(false)
 
-const active = computed(() => prototypes.find((item) => item.id === activeId.value) ?? prototypes[0])
+const activeId = computed(() => route.name ?? 'canvas')
+
+function onDialVisibility(visible) {
+  dialOpen.value = visible
+}
 
 function isTyping(target) {
   if (!(target instanceof HTMLElement)) return false
@@ -30,31 +36,28 @@ function onKey(event) {
   }
 }
 
-function choose(id) {
-  activeId.value = id
-  menuOpen.value = false
-}
-
 onMounted(() => window.addEventListener('keydown', onKey))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 </script>
 
 <template>
-  <component :is="active.component" />
+  <RouterView />
+  <DialTimeline :visible="dialOpen" :on-visibility-change="onDialVisibility" />
   <DialRoot v-if="dialOpen" @open-change="dialOpen = $event" />
+  <SiteCursor />
   <div v-if="menuOpen" class="scrim" @click.self="menuOpen = false">
     <nav class="menu" aria-label="Prototypes">
       <p class="type-label-xsmall label">Prototypes</p>
-      <button
+      <RouterLink
         v-for="item in prototypes"
         :key="item.id"
-        type="button"
-        class="type-body"
+        :to="item.path"
+        class="type-body link"
         :class="{ current: item.id === activeId }"
-        @click="choose(item.id)"
+        @click="menuOpen = false"
       >
         {{ item.name }}
-      </button>
+      </RouterLink>
     </nav>
   </div>
 </template>
@@ -84,13 +87,15 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   color: #6b6b6b;
 }
 
-.menu button {
+.link {
   padding: 12px;
   border-radius: 10px;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
 }
 
-.menu button.current {
+.link.current {
   background: #f2f2f2;
 }
 </style>

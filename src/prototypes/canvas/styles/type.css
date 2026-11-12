@@ -69,12 +69,12 @@
   letter-spacing: -0.035em;
 }
 
-/* Display/Large · Figma Sans · 62 · 85% · −3.5% */
+/* Display/Large · Figma Sans · 62 · 95% · −1% */
 .type-display-large {
   font-weight: 400;
   font-size: 62px;
-  line-height: 0.85;
-  letter-spacing: -0.035em;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
 }
 
 /* Title/Medium · Figma Sans · 34 · 100% · −4% */

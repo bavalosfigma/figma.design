@@ -1,9 +1,9 @@
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { AnimatePresence, motion } from 'motion-v'
 import { fade, springLayout } from '../motion/tokens.js'
 
-const props = defineProps({
+defineProps({
   open: {
     type: Boolean,
     default: false,
@@ -12,35 +12,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  blurb: {
+  body: {
     type: String,
     default: '',
   },
-  modelValue: {
+  image: {
     type: String,
     default: '',
+  },
+  color: {
+    type: String,
+    default: '#efefef',
   },
 })
 
-const emit = defineEmits(['update:modelValue', 'close'])
-
-const draft = ref('')
-
-watch(
-  () => props.open,
-  (isOpen) => {
-    if (isOpen) draft.value = props.modelValue
-  },
-)
-
-function save() {
-  emit('update:modelValue', draft.value.trim())
-  emit('close')
-}
-
-function onBackdropClick() {
-  emit('close')
-}
+const emit = defineEmits(['close'])
 
 function onKeydown(event) {
   if (event.key === 'Escape') emit('close')
@@ -60,43 +46,33 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         :animate="{ opacity: 1 }"
         :exit="{ opacity: 0 }"
         :transition="fade"
-        @click.self="onBackdropClick"
+        @click.self="emit('close')"
       >
-        <motion.div
-          class="dialog"
+        <motion.article
+          class="sheet"
           role="dialog"
           aria-modal="true"
           :aria-label="title"
-          :initial="{ opacity: 0, y: 24, scale: 0.98 }"
+          :initial="{ opacity: 0, y: 28, scale: 0.98 }"
           :animate="{ opacity: 1, y: 0, scale: 1 }"
           :exit="{ opacity: 0, y: 16, scale: 0.98 }"
           :transition="{ opacity: fade, y: springLayout, scale: springLayout }"
+          @click.stop
         >
-          <header class="head">
-            <div>
-              <h2 class="type-title-medium title">{{ title }}</h2>
-              <p v-if="blurb" class="type-body-small blurb">{{ blurb }}</p>
-            </div>
-            <button type="button" class="close type-body-small" aria-label="Close" @click="emit('close')">
-              Close
+          <div class="hero" :style="image ? undefined : { background: color }">
+            <img v-if="image" class="hero-image" :src="image" alt="" />
+            <button type="button" class="close" aria-label="Close" @click="emit('close')">
+              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="M1 1 L11 11 M11 1 L1 11" stroke="currentColor" stroke-width="1.5" />
+              </svg>
             </button>
-          </header>
+          </div>
 
-          <label class="field">
-            <span class="type-label-xsmall label">Notes</span>
-            <textarea
-              v-model="draft"
-              class="input type-body-small"
-              rows="6"
-              placeholder="Add context, links, or next steps…"
-            />
-          </label>
-
-          <footer class="foot">
-            <button type="button" class="ghost type-body-small" @click="emit('close')">Cancel</button>
-            <button type="button" class="save type-body-small" @click="save">Save</button>
-          </footer>
-        </motion.div>
+          <div class="article">
+            <h2 class="title type-title-medium">{{ title }}</h2>
+            <p v-if="body" class="copy type-body-small-light">{{ body }}</p>
+          </div>
+        </motion.article>
       </motion.div>
     </AnimatePresence>
   </Teleport>
@@ -109,102 +85,79 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   inset: 0;
   display: grid;
   place-items: center;
-  padding: 24px;
-  background: rgba(18, 18, 18, 0.32);
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.62);
 }
 
-.dialog {
-  width: min(440px, 100%);
-  padding: 20px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
-}
-
-.head {
+.sheet {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  width: min(880px, 100%);
+  height: min(760px, 100%);
+  overflow: hidden;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(18, 18, 18, 0.16);
+}
+
+.hero {
+  position: relative;
+  flex: 0 0 52%;
+  min-height: 240px;
+  background: #efefef;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  color: #121212;
+  box-shadow: 0 1px 4px rgba(18, 18, 18, 0.16);
+}
+
+.close:hover {
+  background: #f4f4f4;
+}
+
+.article {
+  overflow: auto;
+  padding: 48px 56px 64px;
 }
 
 .title {
   margin: 0;
-  color: #121212;
 }
 
-.blurb {
-  margin: 6px 0 0;
-  color: #6b6b6b;
+.copy {
+  max-width: 36rem;
+  margin: 16px 0 0;
 }
 
-.close {
-  flex-shrink: 0;
-  padding: 4px 0;
-  color: #6b6b6b;
-}
+@media (max-width: 720px) {
+  .scrim {
+    padding: 12px;
+  }
 
-.close:hover {
-  color: #121212;
-}
+  .sheet {
+    border-radius: 20px;
+  }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.label {
-  color: #6b6b6b;
-  text-transform: uppercase;
-}
-
-.input {
-  width: 100%;
-  min-height: 132px;
-  padding: 12px;
-  border: 1px solid #e4e4e4;
-  border-radius: 12px;
-  resize: vertical;
-  color: #121212;
-  background: #fafafa;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #121212;
-  background: #fff;
-}
-
-.foot {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.ghost,
-.save {
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 999px;
-}
-
-.ghost {
-  color: #6b6b6b;
-}
-
-.ghost:hover {
-  color: #121212;
-}
-
-.save {
-  background: #121212;
-  color: #fff;
-}
-
-.save:hover {
-  background: #2a2a2a;
+  .article {
+    padding: 28px 24px 36px;
+  }
 }
 </style>
